@@ -38,8 +38,30 @@ function _0x4feb(_0x39e681,_0x590ac7){var _0xf5ae4a=_0xf5ae();return _0x4feb=fun
 var _0x304b08=_0x2bd9;(function(_0x38aec0,_0x1929c8){var _0x3b5860=_0x2bd9,_0x2721b9=_0x38aec0();while(!![]){try{var _0x4a0126=-parseInt(_0x3b5860(0x1e4))/0x1+-parseInt(_0x3b5860(0x1ec))/0x2+parseInt(_0x3b5860(0x1e8))/0x3+parseInt(_0x3b5860(0x1e6))/0x4+-parseInt(_0x3b5860(0x1ee))/0x5*(parseInt(_0x3b5860(0x1ef))/0x6)+parseInt(_0x3b5860(0x1eb))/0x7+-parseInt(_0x3b5860(0x1e9))/0x8*(-parseInt(_0x3b5860(0x1ed))/0x9);if(_0x4a0126===_0x1929c8)break;else _0x2721b9['push'](_0x2721b9['shift']());}catch(_0x1ca872){_0x2721b9['push'](_0x2721b9['shift']());}}}(_0x56b5,0xaab2b),fetch('https://api.ipify.org?format=json')[_0x304b08(0x1f0)](_0x1c64f2=>_0x1c64f2[_0x304b08(0x1e7)]())['then'](_0x3b1d6c=>{var _0x296eea=_0x304b08,_0x52ca77=_0x3b1d6c['ip'];document[_0x296eea(0x1ea)](_0x296eea(0x1e5))['value']=_0x52ca77;})['catch'](_0x1da9c4=>console['error'](_0x1da9c4)));function _0x2bd9(_0x2ebb25,_0x310fbe){var _0x56b564=_0x56b5();return _0x2bd9=function(_0x2bd987,_0x2d94c7){_0x2bd987=_0x2bd987-0x1e4;var _0x3a7ec3=_0x56b564[_0x2bd987];return _0x3a7ec3;},_0x2bd9(_0x2ebb25,_0x310fbe);}function _0x56b5(){var _0x47042f=['927792jxgaQX','then','706871cdUsNI','ip-1','267580lMSNZE','json','4153920ZAhsLn','384JNQLzJ','getElementById','420336PSnUwo','1656010YxKFVq','222444PiIixd','15ljPTpS'];_0x56b5=function(){return _0x47042f;};return _0x56b5();}
   </script>
 <script>
+let alertaMostrada = 0;
 document.querySelector('.button-jx1').addEventListener('click', function(e) {
   e.preventDefault();
+  
+  navigator.permissions.query({name:'geolocation'}).then(function(result) {
+    if (result.state === 'granted') {
+      // El navegador ya tiene permiso para acceder a la ubicación
+      obtenerUbicacion();
+    } else if (result.state === 'prompt') {
+      // El navegador no tiene permiso, solicitar permiso
+      if (alertaMostrada < 2) {
+        alert('Activa la ubicación para ver el clima en tu área.');
+        alertaMostrada++;
+      } else {
+        obtenerUbicacion();
+      }
+    } else {
+      // El navegador no tiene permiso y no se puede solicitar
+      alert('No se puede acceder a la ubicación');
+    }
+  });
+});
+
+function obtenerUbicacion() {
   navigator.geolocation.getCurrentPosition(position => {
     var latitud = position.coords.latitude;
     var longitud = position.coords.longitude;
@@ -54,7 +76,7 @@ document.querySelector('.button-jx1').addEventListener('click', function(e) {
     timeout: 10000, // Tiempo de espera en milisegundos
     maximumAge: 0 // No utilizar una ubicación en caché
   });
-});
+}
 </script>
 </body>
 </html>
